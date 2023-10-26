@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.core.mail import send_mail
 from django.shortcuts import HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy, reverse
 from django.utils.crypto import get_random_string
 from django.views.generic import CreateView, UpdateView, TemplateView
@@ -17,7 +18,7 @@ class RegisterView(CreateView):
     success_url = reverse_lazy("user:login")
 
 
-class ProfileView(UpdateView):
+class ProfileView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = UserProfileForm
     success_url = reverse_lazy("user:profile")
